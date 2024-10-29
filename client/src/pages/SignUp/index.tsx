@@ -26,10 +26,10 @@ const SignUp = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!email || !password || !name) {
-      alert("Sign-up details cannot be empty");
-      return;
-    }
+    // if (!email || !password || !name) {
+    //   alert("Sign-up details cannot be empty");
+    //   return;
+    // }
 
     console.log("Email:", email);
     console.log("Name:", name);

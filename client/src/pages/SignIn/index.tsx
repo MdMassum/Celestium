@@ -22,10 +22,10 @@ const SignIn = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     
-    if (!email || !password) {
-      alert("Login credentials cannot be empty");
-      return;
-    }
+    // if (!email || !password) {
+    //   alert("Login credentials cannot be empty");
+    //   return;
+    // }
     console.log("Email:", email);
     console.log("Password:", password);
     navigate('/launch');

@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Starss from "../../../components/starss";
 import Button from "../../../components/Button";
 import Button2 from "../../../components/Button2";
+import { FaCaretDown } from "react-icons/fa";
 
 const SignupAstrologer: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -11,7 +12,8 @@ const SignupAstrologer: React.FC = () => {
   const [gender, setGender] = useState<string>("");
   const [skills, setSkills] = useState<string[]>([]);
   const [experience, setExperience] = useState<string>("");
-  const [certification, setCertification] = useState<File | null>(null);
+  const [certificate, setCertificate] = useState<File | null>(null);
+  const [certificateName, setCertificateName] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -21,8 +23,14 @@ const SignupAstrologer: React.FC = () => {
   const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>) => setAge(event.target.value);
   const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => setGender(event.target.value);
   const handleExperienceChange = (event: React.ChangeEvent<HTMLInputElement>) => setExperience(event.target.value);
-  const handleCertificationChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setCertification(event.target.files ? event.target.files[0] : null);
+
+  const handleCertificateUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      setCertificate(file);
+      setCertificateName(file.name); // Store file name
+    }
+  };
 
   const handleSkillToggle = (skill: string) => {
     setSkills((prevSkills) =>
@@ -46,7 +54,7 @@ const SignupAstrologer: React.FC = () => {
     console.log("Gender:", gender);
     console.log("Skills:", skills);
     console.log("Experience:", experience);
-    console.log("Certification:", certification);
+    console.log("certificate:", certificate);
     navigate("/launchAstro");
 
     // TODO: Add API call for registration here
@@ -62,7 +70,7 @@ const SignupAstrologer: React.FC = () => {
             <h2 className="text-5xl md:text-4xl text-white text-center md:mt-12  mb-10 md:mb-6 font-robotoSerif">Welcome Astrologer</h2>
 
             {/* Full Name Input */}
-            <div className="w-full mb-8 md:mb-2">
+            <div className="w-full mb-8 md:mb-4">
               <label htmlFor="name" className="block text-2xl md:text-sm font-medium text-white mb-1">Full Name</label>
               <input
                 required
@@ -76,7 +84,7 @@ const SignupAstrologer: React.FC = () => {
             </div>
 
             {/* Email Input */}
-            <div className="w-full mb-8 md:mb-2">
+            <div className="w-full mb-8 md:mb-4">
               <label htmlFor="email" className="block text-2xl md:text-sm font-medium text-white mb-1">Email-ID</label>
               <input
                 required
@@ -101,7 +109,7 @@ const SignupAstrologer: React.FC = () => {
                 value={age}
                 onChange={handleAgeChange}
                 placeholder="age"
-                className="w-20 px-4 py-1 bg-[#f5f5f5] text-slate-800 rounded-md"
+                className="w-20 px-4 py-2 md:py-1 bg-[#f5f5f5] text-slate-800 rounded-md"
               />
             </div>
 
@@ -109,7 +117,7 @@ const SignupAstrologer: React.FC = () => {
             <div className="w-full mb-8">
               <label className="block text-2xl md:text-sm  font-medium text-white mb-1">Gender</label>
               <div className="flex gap-4 text-[#FFD700]">
-                <label>
+                <label className="text-2xl md:text-lg ">
                   <input
                     type="radio"
                     value="Male"
@@ -119,7 +127,7 @@ const SignupAstrologer: React.FC = () => {
                   />
                   Male
                 </label>
-                <label>
+                <label className="text-2xl md:text-lg ">
                   <input
                     type="radio"
                     value="Female"
@@ -135,7 +143,7 @@ const SignupAstrologer: React.FC = () => {
             </div>
 
             {/* Skills Selection */}
-            <div className="w-full mb-8">
+            <div className="w-full mb-10">
               <label className="block text-2xl md:text-sm  font-medium text-white mb-1">Skills</label>
               <div className="flex flex-wrap gap-2">
                 {["Numerology", "Tarot", "Palmistry", "Psychic", "Psychologist", "Vedic", "Vastu", "Spiritual Counseling", "Astronomy", "Mediumship", "Energy Healing", "Dream Interpretation", "Face Reading", "Kundli Match", "Kundli", "Tarot Reading"].map(
@@ -163,21 +171,27 @@ const SignupAstrologer: React.FC = () => {
                 value={experience}
                 onChange={handleExperienceChange}
                 placeholder="2"
-                className="w-20 px-4 py-1 bg-[#f5f5f5] text-slate-800 rounded-md"
+                className="w-20 px-4 py-1.5 bg-[#f5f5f5] text-slate-800 rounded-md"
               />
             </div>
 
             {/* Certification Upload */}
-            <div className="w-1/2 mb-8">
-              <label htmlFor="certification" className="block text-2xl md:text-sm  font-medium text-white mb-1">Certification (if any)</label>
-              <input
-                type="file"
-                id="certification"
-                accept=".pdf"
-                onChange={handleCertificationChange}
-                className="min-w-40 w-full px-4 py-2 md:py-1 bg-[#f5f5f5] text-slate-800 rounded-md"
-              />
-            </div>
+            <div className='flex-col'>
+                <p className='text-white text-xl md:text-sm font-semibold mb-1'>Certification (if any)</p>
+                <label className='flex justify-between items-center text-black bg-white w-52 md:w-48 min-h-8 rounded-lg border border-[#E1E1E1] p-2 md:p-1.5 px-4 cursor-pointer'>
+                  <span className="font-semibold text-slate-600">{certificateName || 'Choose File'}</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleCertificateUpload}
+                    className='hidden'
+                  />
+                  <div className="px-2">
+                    <FaCaretDown size={24}/>
+                  </div>
+                </label>
+              </div>
+              
             </div>
 
             <div className="flex md:flex-col">
