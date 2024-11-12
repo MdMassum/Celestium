@@ -43,6 +43,7 @@ const SignupAstrologer: React.FC = () => {
     );
   };
 
+  console.log(certificate)
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -50,7 +51,6 @@ const SignupAstrologer: React.FC = () => {
     //   alert("All required fields must be filled");
     //   return;
     // }
-
      try {
       dispatch(signInStart())
 
