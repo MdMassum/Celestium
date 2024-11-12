@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { IoPersonOutline } from "react-icons/io5";
 import MobileNav from './MobileNav';
+import { useDispatch } from 'react-redux';
+import { signOutFailure, signOutStart, signOutSuccess } from '../../redux/authSlice';
 
 interface NavItem {
   label: string;
@@ -33,6 +35,23 @@ const Header: React.FC = () => {
   const toggleFeaturesDropdown = () => {
     setFeaturesDropdownOpen(!featuresDropdownOpen);
   };
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () =>{
+    try {
+      dispatch(signOutStart());
+
+      // api call
+      dispatch(signOutSuccess());
+      setProfileDropdownOpen(false)
+      navigate('/signIn')
+      
+    } catch (error:any) {
+      dispatch(signOutFailure(error.message))
+    }
+  }
 
   // Check if the current path is related to any feature dropdown page
   const isFeaturesActive = ["/features/horoscope", "/features/tarotHome", "/features/palmistry", "/features/natalChart", "/features/compatibility"].includes(location.pathname);
@@ -134,13 +153,13 @@ const Header: React.FC = () => {
             >
               My Profile
             </NavLink>
-            <NavLink
-              to="/signIn"
+            <div
               className="block px-4 pb-2 pt-1 hover:bg-gray-700 transition-colors duration-300 text-[#FFD700] font-light"
-              onClick={() => setProfileDropdownOpen(false)}
+              onClick={() => handleLogout()}
+
             >
               Logout
-            </NavLink>
+            </div>
           </div>
         )}
       </div>

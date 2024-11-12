@@ -4,6 +4,8 @@ import Starss from "../../components/starss";
 import Button from "../../components/Button";
 import Button2 from "../../components/Button2";
 import Oauth from "../../components/Oauth";
+import { useDispatch } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../../redux/authSlice";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +13,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -31,12 +34,21 @@ const SignUp = () => {
     //   return;
     // }
 
-    console.log("Email:", email);
-    console.log("Name:", name);
-    console.log("Password:", password);
-    navigate("/launch");
+    try {
+      dispatch(signInStart())
 
-    // TODO: Add API call for registration here
+      // TODO: Add API call for registration here
+
+      dispatch(signInSuccess({
+        name : name,
+        email
+      }))
+      navigate('/launch')
+      
+    } catch (error : any) {
+      dispatch(signInFailure(error.message))
+    }
+
   };
 
   return (

@@ -37,6 +37,7 @@ import History from './pages/Astro/History';
 import Notification from './pages/Astro/Notification';
 import AstroProfile from './pages/Astro/Profile';
 import CallAppointment from './pages/Astro/Appointment';
+import PrivateRoute from './components/PrivateRoute';
 
 function Layout() {
   const location = useLocation();
@@ -65,30 +66,33 @@ function Layout() {
       <Routes>
 
         {/* users path */}
-        <Route path='/' element={<Home />} />
-        <Route path='/launch' element={<Launch />} />
         <Route path='/signIn' element={<SignIn />} />
         <Route path='/signUp' element={<SignUp />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/features/horoscope' element={<HoroscopePage />} />
-        <Route path='/horoscope/result' element={<HoroscopeResult />} />
-        <Route path='/features/compatibility' element={<Compatibility />} />
-        <Route path='/features/compatibility2' element={<Compatibility2 />} />
-        <Route path='/features/natalChart' element={<Natal_Chart />} />
-        <Route path='/natalChart_Details' element={<NatalChart_Details />} />
-        <Route path='/natalChart_Results' element={< NatalChart_Results/>} />
-        <Route path='/features/palmistry' element={< Palmistry />} />
-        <Route path='/palmAnalysis' element={< PalmAnalysis />} />
-        <Route path='/palmResult' element={< PalmResult />} />
-        <Route path='/features/tarotHome' element={< TarotHome />} />
-        <Route path='/tarot_Category' element={< Tarot_Category />} />
-        <Route path='/tarotCard/:id' element={< Tarot_Card />} />
-        <Route path='/tarot_Result/:id' element={< Tarot_Interpretation />} />
-        <Route path='/astrologers' element={< Astrologers/>} />
-        <Route path='/astrologers/:id' element={< Astrologer2 />} />
-        <Route path='/payment' element={< Payment />} />
-        <Route path='/paymentSuccess' element={< PaymentSuccess />} />
+
+        <Route element={<PrivateRoute />}>
+            <Route path='/' element={<Home />} />
+            <Route path='/launch' element={<Launch />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/features/horoscope' element={<HoroscopePage />} />
+            <Route path='/horoscope/result' element={<HoroscopeResult />} />
+            <Route path='/features/compatibility' element={<Compatibility />} />
+            <Route path='/features/compatibility2' element={<Compatibility2 />} />
+            <Route path='/features/natalChart' element={<Natal_Chart />} />
+            <Route path='/natalChart_Details' element={<NatalChart_Details />} />
+            <Route path='/natalChart_Results' element={< NatalChart_Results/>} />
+            <Route path='/features/palmistry' element={< Palmistry />} />
+            <Route path='/palmAnalysis' element={< PalmAnalysis />} />
+            <Route path='/palmResult' element={< PalmResult />} />
+            <Route path='/features/tarotHome' element={< TarotHome />} />
+            <Route path='/tarot_Category' element={< Tarot_Category />} />
+            <Route path='/tarotCard/:id' element={< Tarot_Card />} />
+            <Route path='/tarot_Result/:id' element={< Tarot_Interpretation />} />
+            <Route path='/astrologers' element={< Astrologers/>} />
+            <Route path='/astrologers/:id' element={< Astrologer2 />} />
+            <Route path='/payment' element={< Payment />} />
+            <Route path='/paymentSuccess' element={< PaymentSuccess />} />
+        </Route>
 
       </Routes>
       {/* Show footer only on specific pages */}
@@ -102,14 +106,17 @@ function Layout() {
         
         <Route path='/signUp_Astro' element={<SignupAstrologer />} />
         <Route path='/signIn_Astro' element={<SignIn_Astro />} />
-        <Route path='/launchAstro' element={<LaunchAstro />} />
-        <Route path='/astro_Dashboard' element={<AstroDashboard />} />
-        <Route path='/astro/goLive' element={<GoLive />} />
-        <Route path='/astro/callAppointment' element={<CallAppointment />} />
-        <Route path='/astro/performance' element={<Performance />} />
-        <Route path='/astro/history' element={<History />} />
-        <Route path='/astro/notification' element={<Notification />} />
-        <Route path='/astro/profile' element={<AstroProfile />} />
+
+        <Route element={<PrivateRoute />}>
+            <Route path='/launchAstro' element={<LaunchAstro />} />
+            <Route path='/astro_Dashboard' element={<AstroDashboard />} />
+            <Route path='/astro/goLive' element={<GoLive />} />
+            <Route path='/astro/callAppointment' element={<CallAppointment />} />
+            <Route path='/astro/performance' element={<Performance />} />
+            <Route path='/astro/history' element={<History />} />
+            <Route path='/astro/notification' element={<Notification />} />
+            <Route path='/astro/profile' element={<AstroProfile />} />
+        </Route>
 
       </Routes>
       

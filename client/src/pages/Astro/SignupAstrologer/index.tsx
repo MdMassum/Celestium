@@ -4,6 +4,8 @@ import Starss from "../../../components/starss";
 import Button from "../../../components/Button";
 import Button2 from "../../../components/Button2";
 import { FaCaretDown } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../../../redux/authSlice";
 
 const SignupAstrologer: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,6 +18,7 @@ const SignupAstrologer: React.FC = () => {
   const [certificateName, setCertificateName] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Handlers for the form fields
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value);
@@ -48,16 +51,22 @@ const SignupAstrologer: React.FC = () => {
     //   return;
     // }
 
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Age:", age);
-    console.log("Gender:", gender);
-    console.log("Skills:", skills);
-    console.log("Experience:", experience);
-    console.log("certificate:", certificate);
-    navigate("/launchAstro");
+     try {
+      dispatch(signInStart())
 
-    // TODO: Add API call for registration here
+      // TODO: Add API call for registration here
+
+      dispatch(signInSuccess({
+        name,
+        email,
+        age,
+        gender
+      }))
+      navigate('/launchAstro')
+      
+    } catch (error : any) {
+      dispatch(signInFailure(error.message))
+    }
   };
 
   return (

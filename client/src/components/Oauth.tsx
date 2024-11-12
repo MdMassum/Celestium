@@ -1,6 +1,8 @@
 import React, { FC, ButtonHTMLAttributes } from 'react';
 import { useNavigate } from 'react-router-dom';
 import google from '../assets/Google.png';
+import { useDispatch } from 'react-redux';
+import { signInFailure, signInStart, signInSuccess } from '../redux/authSlice';
 
 interface OauthProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -14,14 +16,19 @@ const Oauth: FC<OauthProps> = ({
   ...props
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleGoogleClick = async () => {
     try {
       // API call for Google sign-in
+      dispatch(signInStart());
+
+      dispatch(signInSuccess({name:'Ammy',email:"test@gmail.com"}))
       navigate('/launch');
 
-    } catch (error: unknown) {
+    } catch (error: any) {
       
+      dispatch(signInFailure(error.message))
       if (error instanceof Error) {
         console.error("Could not sign in with Google", error.message);
       } else {

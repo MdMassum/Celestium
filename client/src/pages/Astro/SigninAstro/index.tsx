@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import Starss from "../../../components/starss";
 import Button from "../../../components/Button";
 import Button2 from "../../../components/Button2";
+import { useDispatch } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../../../redux/authSlice";
 
 const SignIn_Astro = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -25,11 +28,20 @@ const SignIn_Astro = () => {
     //   alert("Login credentials cannot be empty");
     //   return;
     // }
-    console.log("Email:", email);
-    console.log("Password:", password);
-    navigate('/launchAstro');
 
-    // TODO: Add API call for authentication here
+    try {
+      dispatch(signInStart())
+
+      // TODO: Add API call for authentication here
+      dispatch(signInSuccess({
+        name : "Ammy",
+        email,
+      }))
+      navigate('/launchAstro')
+      
+    } catch (error : any) {
+      dispatch(signInFailure(error.message))
+    }
   };
 
   return (

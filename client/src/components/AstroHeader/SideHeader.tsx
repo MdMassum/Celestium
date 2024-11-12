@@ -4,7 +4,9 @@ import live from '../../assets/AstroHeader/live.svg';
 import call from '../../assets/AstroHeader/call-chat.svg';
 import performance from '../../assets/AstroHeader/mdi_performance.svg';
 import logout from '../../assets/AstroHeader/logout.svg'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signOutFailure, signOutStart, signOutSuccess } from '../../redux/authSlice';
 
 interface NavItem {
   icon: string;
@@ -36,6 +38,20 @@ const SideHeader: React.FC = () => {
     },
   ];
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    try {
+      dispatch(signOutStart());
+      // Simulate API call
+      dispatch(signOutSuccess());
+      navigate('/signIn_Astro');
+    } catch (error: any) {
+      dispatch(signOutFailure(error.message));
+    }
+  };
+
   return (
     <div className="hidden md:flex flex-col w-28 ml-3 h-screen absolute items-center top-16 text-lg md:text-sm">
       <div className="flex flex-col w-full bg-[#3B3B5B] gap-10 px-3 py-6 items-center justify-center rounded-md ">
@@ -55,10 +71,12 @@ const SideHeader: React.FC = () => {
         ))}
       </div>
 
-      <NavLink to='/signIn_Astro' className='flex w-full rounded-md py-3 gap-1 justify-center items-center bg-[#3B3B5B] mt-2'>
+      <div 
+      onClick={()=>handleLogout()}
+      className='flex w-full rounded-md py-3 gap-1 justify-center items-center bg-[#3B3B5B] mt-2'>
         <img src={logout} alt="" className='h-9'/>
         <p className=' hover:text-[#FFD700]'>Logout</p>
-      </NavLink>
+      </div>
     </div>
   );
 };
